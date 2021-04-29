@@ -1,3 +1,5 @@
+[![GNU GPLv3](https://img.shields.io/badge/license-GNU%20GPLv3-<COLOR>?style=flat "GNU GPLv3 license")](LICENSE)
+
 # Table of contents
 - [Table of contents](#table-of-contents)
 - [About the prototype](#about-the-prototype)
@@ -33,6 +35,7 @@ The prototype will be used to test/evaluate the following:
 # Getting started
 
 # License
+Distributed under the GNU GPLv3 License. See [`LICENSE`](LICENSE) for more information.
 
 # Contact
 Nils Casties -  [:mailbox_with_mail:](nils.casties@tib.eu)
