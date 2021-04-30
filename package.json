@@ -1,0 +1,13 @@
+{
+    "dependencies": {
+        "leaflet": "^1.7.1"
+    },
+    "description": "Code-sandbox for testing map APIs & Wikidata API",
+    "license": "GPL-3.0-only",
+    "name": "ogt-prototype-simple-webpage",
+    "repository": {
+        "type": "git",
+        "url": "https://git.tib.eu/nfdi4culture/ogt/ogt-prototype-simple-webpage.git"
+    },
+    "version": "0.3.0"
+}
