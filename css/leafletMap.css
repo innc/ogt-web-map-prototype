@@ -9,3 +9,11 @@ body {
     height: 85%;
     width: 100%;
 }
+
+.popUpTopic {
+    font-weight: bold;
+}
+
+.popUpTopicCategory {
+    font-style: italic;
+}

@@ -25,10 +25,16 @@ const tileLayerProviders = {
 };
 
 window.onload = function () {
+    let map = setUpLeafletMap();
+
+    displayGestapoMarkers(map);
+};
+
+function setUpLeafletMap() {
     // initialize the map on the "leafletMapId" div
     let map = L.map('leafletMapId', {
         center: [52.377132041829874, 9.727402178803096],
-        zoom: 18,
+        zoom: 8,
     });
 
     // add layers control to switch between different base layers and switch overlays on/off
@@ -45,4 +51,51 @@ window.onload = function () {
     L.control.scale({
         imperial: false,
     }).addTo(map);
+
+    return map;
+};
+
+function displayGestapoMarkers(map) {
+    const sparqlQuery = `
+        SELECT
+            ?item
+            ?itemLabel
+            ?itemDescription
+            (GROUP_CONCAT(DISTINCT ?itemInstanceLabel ; separator=", ") as ?itemInstanceLabelConcat)
+            (SAMPLE(?lat) AS ?lat)
+            (SAMPLE(?lng) AS ?lng)
+        WHERE {
+            ?item wdt:P195 wd:Q106571749;
+                wdt:P31 ?itemInstance;
+                p:P625 ?itemGeo.
+            ?itemGeo psv:P625 ?geoNode.
+            ?geoNode wikibase:geoLatitude ?lat;
+                wikibase:geoLongitude ?lng.
+            SERVICE wikibase:label {
+                bd:serviceParam wikibase:language "de".
+                ?item rdfs:label ?itemLabel.
+                ?item schema:description ?itemDescription.
+                ?itemInstance rdfs:label ?itemInstanceLabel.
+            }
+        }
+        GROUP BY ?item ?itemLabel ?itemDescription
+        ORDER BY ?item`;
+
+    const queryDispatcher = new SparqlQueryDispatcher(sparqlQuery);
+
+    queryDispatcher.query(sparqlQuery)
+        .then((response) => {
+            response.results.bindings.forEach(place => {
+                const marker = L.marker([place.lat.value, place.lng.value], {
+                    title: place.itemLabel.value
+                }).addTo(map);
+
+                let markerPopUpHtmlTemplate = `
+                    <div class="popUpTopic">${ place.itemLabel.value }</div>
+                    <div class="popUpTopicCategory">${ place.itemInstanceLabelConcat.value }</div><br>
+                    ${ place.itemDescription.value }.`;
+
+                marker.bindPopup(markerPopUpHtmlTemplate);
+            });
+        });
 };
