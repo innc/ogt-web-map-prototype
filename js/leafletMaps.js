@@ -25,37 +25,50 @@ const tileLayerProviders = {
 };
 
 window.onload = function () {
-    let map = setUpLeafletMap();
+    let [map, layers] = setupLeafletMap();
 
-    displayGestapoMarkers(map);
+    displayGestapoMarkers(map, layers);
 };
 
-function setUpLeafletMap() {
+/**
+ * Setup initial Leaflet map, add scale & tile layer controls.
+ *
+ * @returns array(L.Map L.Control.Layers) [map layers]
+ */
+function setupLeafletMap() {
+    let baseLayers = {};
+
+    for (const [providerName, providerData] of Object.entries(tileLayerProviders)) {
+        let tileLayer = L.tileLayer(providerData.urlTemplate, providerData.options);
+        baseLayers[providerName] = tileLayer;
+    }
+
     // initialize the map on the "leafletMapId" div
     let map = L.map('leafletMapId', {
         center: [52.377132041829874, 9.727402178803096],
         zoom: 8,
+        layers: [baseLayers['OSM default']],
     });
 
     // add layers control to switch between different base layers and switch overlays on/off
-    let layersControl = L.control.layers().addTo(map);
-
-    for (const [providerName, providerData] of Object.entries(tileLayerProviders)) {
-        // load and display tile layers on the map
-        let tileLayer = L.tileLayer(providerData.urlTemplate, providerData.options);
-        map.addLayer(tileLayer);
-        layersControl.addBaseLayer(tileLayer, providerName);
-    }
+    let layers = L.control.layers(baseLayers).addTo(map);
 
     // add scale control using metric system
     L.control.scale({
         imperial: false,
     }).addTo(map);
 
-    return map;
+    return [map, layers];
 };
 
-function displayGestapoMarkers(map) {
+/**
+ * Request Wikidata "Places of Gestapo terror in present-day Lower Saxony" and
+ * create map markers and their popup content.
+ *
+ * @param {L.Map} map
+ * @param {L.Control.Layers} layers
+ */
+function displayGestapoMarkers(map, layers) {
     const sparqlQuery = `
         SELECT
             ?item
@@ -85,17 +98,31 @@ function displayGestapoMarkers(map) {
 
     queryDispatcher.query(sparqlQuery)
         .then((response) => {
+            let gestapoPlacesLayerGroup = L.layerGroup();
+
             response.results.bindings.forEach(place => {
-                const marker = L.marker([place.lat.value, place.lng.value], {
+                let marker = L.marker([place.lat.value, place.lng.value], {
                     title: place.itemLabel.value
-                }).addTo(map);
+                });
 
                 let markerPopUpHtmlTemplate = `
-                    <div class="popUpTopic">${ place.itemLabel.value }</div>
-                    <div class="popUpTopicCategory">${ place.itemInstanceLabelConcat.value }</div><br>
-                    ${ place.itemDescription.value }.`;
+                    <div class="popUpTopic">
+                        <a href="${ place.item.value }" target="_blank">
+                            ${ place.itemLabel.value }
+                        </a>
+                    </div>
+                    <div class="popUpTopicCategory">
+                        ${ place.itemInstanceLabelConcat.value }
+                    </div>
+                    <br>
+                    ${ place.itemDescription.value }`;
 
                 marker.bindPopup(markerPopUpHtmlTemplate);
+
+                gestapoPlacesLayerGroup.addLayer(marker);
             });
+
+            layers.addOverlay(gestapoPlacesLayerGroup, 'OGT-places');
+            gestapoPlacesLayerGroup.addTo(map);
         });
 };
