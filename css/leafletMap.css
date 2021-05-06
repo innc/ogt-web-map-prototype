@@ -17,3 +17,10 @@ body {
 .popUpTopicCategory {
     font-style: italic;
 }
+
+.zoomInButton {
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+}

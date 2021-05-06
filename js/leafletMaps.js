@@ -27,7 +27,7 @@ const tileLayerProviders = {
 window.onload = function () {
     let [map, layers] = setupLeafletMap();
 
-    displayGestapoMarkers(map, layers);
+    requestGestapoMarkers(map, layers);
 };
 
 /**
@@ -62,13 +62,12 @@ function setupLeafletMap() {
 };
 
 /**
- * Request Wikidata "Places of Gestapo terror in present-day Lower Saxony" and
- * create map markers and their popup content.
+ * Request Wikidata "Places of Gestapo terror in present-day Lower Saxony" and handle response.
  *
  * @param {L.Map} map
  * @param {L.Control.Layers} layers
  */
-function displayGestapoMarkers(map, layers) {
+function requestGestapoMarkers(map, layers) {
     const sparqlQuery = `
         SELECT
             ?item
@@ -98,31 +97,55 @@ function displayGestapoMarkers(map, layers) {
 
     queryDispatcher.query(sparqlQuery)
         .then((response) => {
-            let gestapoPlacesLayerGroup = L.layerGroup();
-
-            response.results.bindings.forEach(place => {
-                let marker = L.marker([place.lat.value, place.lng.value], {
-                    title: place.itemLabel.value
-                });
-
-                let markerPopUpHtmlTemplate = `
-                    <div class="popUpTopic">
-                        <a href="${ place.item.value }" target="_blank">
-                            ${ place.itemLabel.value }
-                        </a>
-                    </div>
-                    <div class="popUpTopicCategory">
-                        ${ place.itemInstanceLabelConcat.value }
-                    </div>
-                    <br>
-                    ${ place.itemDescription.value }`;
-
-                marker.bindPopup(markerPopUpHtmlTemplate);
-
-                gestapoPlacesLayerGroup.addLayer(marker);
-            });
-
-            layers.addOverlay(gestapoPlacesLayerGroup, 'OGT-places');
-            gestapoPlacesLayerGroup.addTo(map);
+            displayGestapoMarkers(map, layers, response.results.bindings);
         });
+};
+
+/**
+ * Create map markers, their popup content including a zoom-in-button.
+ *
+ * @param {L.Map} map
+ * @param {L.Control.Layers} layers
+ * @param {array} places
+ */
+function displayGestapoMarkers(map, layers, places) {
+    let gestapoPlacesLayerGroup = L.layerGroup();
+
+    places.forEach(place => {
+        let marker = L.marker([place.lat.value, place.lng.value], {
+            title: place.itemLabel.value,
+        });
+
+        let markerPopUpHtmlTemplate = `
+            <div class="popUpTopic">
+                <a href="${ place.item.value }" target="_blank">
+                    ${ place.itemLabel.value }
+                </a>
+                <button class="zoomInButton">
+                    &#x1f50d;
+                </button>
+            </div>
+            <div class="popUpTopicCategory">
+                ${ place.itemInstanceLabelConcat.value }
+            </div>
+            <br>
+            ${ place.itemDescription.value }`;
+
+        marker.bindPopup(markerPopUpHtmlTemplate, {
+            minWidth: 333,
+        });
+
+        marker.on('click', event => {
+            const zoomInButton = marker.getPopup().getElement().getElementsByClassName('zoomInButton')[0];
+
+            zoomInButton.onclick = function () {
+                map.flyTo(event.latlng, 18);
+            };
+        });
+
+        gestapoPlacesLayerGroup.addLayer(marker);
+    });
+
+    layers.addOverlay(gestapoPlacesLayerGroup, 'OGT-places');
+    gestapoPlacesLayerGroup.addTo(map);
 };
