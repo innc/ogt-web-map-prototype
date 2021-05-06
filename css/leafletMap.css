@@ -9,3 +9,18 @@ body {
     height: 85%;
     width: 100%;
 }
+
+.popUpTopic {
+    font-weight: bold;
+}
+
+.popUpTopicCategory {
+    font-style: italic;
+}
+
+.zoomInButton {
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+}

@@ -25,24 +25,127 @@ const tileLayerProviders = {
 };
 
 window.onload = function () {
+    let [map, layers] = setupLeafletMap();
+
+    requestGestapoMarkers(map, layers);
+};
+
+/**
+ * Setup initial Leaflet map, add scale & tile layer controls.
+ *
+ * @returns array(L.Map L.Control.Layers) [map layers]
+ */
+function setupLeafletMap() {
+    let baseLayers = {};
+
+    for (const [providerName, providerData] of Object.entries(tileLayerProviders)) {
+        let tileLayer = L.tileLayer(providerData.urlTemplate, providerData.options);
+        baseLayers[providerName] = tileLayer;
+    }
+
     // initialize the map on the "leafletMapId" div
     let map = L.map('leafletMapId', {
         center: [52.377132041829874, 9.727402178803096],
-        zoom: 18,
+        zoom: 8,
+        layers: [baseLayers['OSM default']],
     });
 
     // add layers control to switch between different base layers and switch overlays on/off
-    let layersControl = L.control.layers().addTo(map);
-
-    for (const [providerName, providerData] of Object.entries(tileLayerProviders)) {
-        // load and display tile layers on the map
-        let tileLayer = L.tileLayer(providerData.urlTemplate, providerData.options);
-        map.addLayer(tileLayer);
-        layersControl.addBaseLayer(tileLayer, providerName);
-    }
+    let layers = L.control.layers(baseLayers).addTo(map);
 
     // add scale control using metric system
     L.control.scale({
         imperial: false,
     }).addTo(map);
+
+    return [map, layers];
+};
+
+/**
+ * Request Wikidata "Places of Gestapo terror in present-day Lower Saxony" and handle response.
+ *
+ * @param {L.Map} map
+ * @param {L.Control.Layers} layers
+ */
+function requestGestapoMarkers(map, layers) {
+    const sparqlQuery = `
+        SELECT
+            ?item
+            ?itemLabel
+            ?itemDescription
+            (GROUP_CONCAT(DISTINCT ?itemInstanceLabel ; separator=", ") as ?itemInstanceLabelConcat)
+            (SAMPLE(?lat) AS ?lat)
+            (SAMPLE(?lng) AS ?lng)
+        WHERE {
+            ?item wdt:P195 wd:Q106571749;
+                wdt:P31 ?itemInstance;
+                p:P625 ?itemGeo.
+            ?itemGeo psv:P625 ?geoNode.
+            ?geoNode wikibase:geoLatitude ?lat;
+                wikibase:geoLongitude ?lng.
+            SERVICE wikibase:label {
+                bd:serviceParam wikibase:language "de".
+                ?item rdfs:label ?itemLabel.
+                ?item schema:description ?itemDescription.
+                ?itemInstance rdfs:label ?itemInstanceLabel.
+            }
+        }
+        GROUP BY ?item ?itemLabel ?itemDescription
+        ORDER BY ?item`;
+
+    const queryDispatcher = new SparqlQueryDispatcher(sparqlQuery);
+
+    queryDispatcher.query(sparqlQuery)
+        .then((response) => {
+            displayGestapoMarkers(map, layers, response.results.bindings);
+        });
+};
+
+/**
+ * Create map markers, their popup content including a zoom-in-button.
+ *
+ * @param {L.Map} map
+ * @param {L.Control.Layers} layers
+ * @param {array} places
+ */
+function displayGestapoMarkers(map, layers, places) {
+    let gestapoPlacesLayerGroup = L.layerGroup();
+
+    places.forEach(place => {
+        let marker = L.marker([place.lat.value, place.lng.value], {
+            title: place.itemLabel.value,
+        });
+
+        let markerPopUpHtmlTemplate = `
+            <div class="popUpTopic">
+                <a href="${ place.item.value }" target="_blank">
+                    ${ place.itemLabel.value }
+                </a>
+                <button class="zoomInButton">
+                    &#x1f50d;
+                </button>
+            </div>
+            <div class="popUpTopicCategory">
+                ${ place.itemInstanceLabelConcat.value }
+            </div>
+            <br>
+            ${ place.itemDescription.value }`;
+
+        marker.bindPopup(markerPopUpHtmlTemplate, {
+            minWidth: 333,
+        });
+
+        marker.on('click', event => {
+            const zoomInButton = marker.getPopup().getElement().getElementsByClassName('zoomInButton')[0];
+
+            zoomInButton.onclick = function () {
+                map.flyTo(event.latlng, 18);
+            };
+        });
+
+        gestapoPlacesLayerGroup.addLayer(marker);
+    });
+
+    layers.addOverlay(gestapoPlacesLayerGroup, 'OGT-places');
+    gestapoPlacesLayerGroup.addTo(map);
 };
