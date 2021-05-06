@@ -6,8 +6,10 @@
 - [Preview](#preview)
 - [Built with](#built-with)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
+  - [Option 1 - Simple install without any prerequisites](#option-1---simple-install-without-any-prerequisites)
+  - [Option 2 - Install by using git and package manager](#option-2---install-by-using-git-and-package-manager)
+    - [Prerequisites](#prerequisites)
+    - [Install](#install)
 - [License](#license)
 - [Contact](#contact)
 - [Related links](#related-links)
@@ -19,11 +21,11 @@ As a first prototype, a simple HTML/JS/CSS/SPARQL website will be implemented wi
 
 The prototype will be used to test/evaluate the following:
 - [ ] Comparison of (open source) web map frameworks APIs:
-    - [ ] [Leaflet](https://leafletjs.com/) ([repository](https://github.com/Leaflet/Leaflet)), an open-source JavaScript library for mobile-friendly interactive maps,
+    - [x] [Leaflet](https://leafletjs.com/) ([repository](https://github.com/Leaflet/Leaflet)), an open-source JavaScript library for mobile-friendly interactive maps,
     - [ ] [MapLibre GL](https://github.com/maplibre/maplibre-gl-js), a community led fork derived from [mapbox-gl-js](https://github.com/mapbox/mapbox-gl-js) prior to their switch to a non-OSS license,
     - [ ] [OpenLayers](https://openlayers.org/) ([repository](https://github.com/openlayers/openlayers)), a high-performance, feature-packed library for all your mapping needs.
     - [ ] [MapBox](https://www.mapbox.com/) ([repository](https://github.com/mapbox/mapbox-gl-js)), a non-OSS JavaScript library for interactive, customizable vector maps on the web
-- [ ] The Wikidata API & SPARQL by displaying Wikidata information on the map.
+- [x] The Wikidata API & SPARQL by displaying Wikidata information on the map.
 - [ ] An option to retrieve geo-coordinates for multiple German addresses at once.
 - [ ] A historical (geo-referenced) map as overlay
 
@@ -33,27 +35,39 @@ The prototype will be used to test/evaluate the following:
 -->
 
 # Built with
+* [Leaflet](https://leafletjs.com/) ([repository](https://github.com/Leaflet/Leaflet)), a JavaScript library for mobile-friendly interactive maps.
 * [npm](https://www.npmjs.com/) ([repository](https://github.com/npm/cli)), a package manager for JavaScript.
-* [Leaflet](https://leafletjs.com/) ([repository](https://github.com/Leaflet/Leaflet)), version ^1.7.1
 
 # Getting Started
 Instructions for setting up project locally.
-To get a local copy up and running follow these simple steps.
+To get a local copy up and running follow these steps.
 
-## Prerequisites
-Software you need to use the prototype and how to install them.
+## Option 1 - Simple install without any prerequisites
+* Download [zip package](https://git.tib.eu/nfdi4culture/ogt/ogt-prototype-simple-webpage/-/archive/master/ogt-prototype-simple-webpage-master.zip) and unzip into a directory.
+* Open file at directory-path [`/html/leafletMap.html`](/html/leafletMap.html) within a browser.
+
+## Option 2 - Install by using git and package manager
+### Prerequisites
+Software you need to use the prototype and how to install them for Ubuntu.
+* git
+  ```sh
+  sudo apt update && sudo apt upgrade
+  sudo apt install git
+  ```
+
 * npm
   ```sh
   npm install npm@latest -g
   ```
 
-## Installation
+### Install
 1. Clone the repo
    ```sh
    git clone https://git.tib.eu/nfdi4culture/ogt/ogt-prototype-simple-webpage.git
    ```
 2. Install NPM packages
    ```sh
+   cd ogt-prototype-simple-webpage/
    npm install
    ```
 # License
