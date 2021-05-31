@@ -21,18 +21,24 @@ As a first prototype, a simple HTML/JS/CSS/SPARQL website will be implemented wi
 
 The prototype will be used to test/evaluate the following:
 - [ ] Comparison of (open source) web map frameworks APIs:
-    - [x] [Leaflet](https://leafletjs.com/) ([repository](https://github.com/Leaflet/Leaflet)), an open-source JavaScript library for mobile-friendly interactive maps,
+    - [x] :heavy_check_mark: [Leaflet](https://leafletjs.com/) ([repository](https://github.com/Leaflet/Leaflet)), an open-source JavaScript library for mobile-friendly interactive maps,
     - [ ] [MapLibre GL](https://github.com/maplibre/maplibre-gl-js), a community led fork derived from [mapbox-gl-js](https://github.com/mapbox/mapbox-gl-js) prior to their switch to a non-OSS license,
     - [ ] [OpenLayers](https://openlayers.org/) ([repository](https://github.com/openlayers/openlayers)), a high-performance, feature-packed library for all your mapping needs.
     - [ ] [MapBox](https://www.mapbox.com/) ([repository](https://github.com/mapbox/mapbox-gl-js)), a non-OSS JavaScript library for interactive, customizable vector maps on the web
-- [x] The Wikidata API & SPARQL by displaying Wikidata information on the map.
+- Map features like
+    - [x] :heavy_check_mark: Default zoom-in/out control
+    - [x] :heavy_check_mark: Tile layer providers switch option
+    - [x] :heavy_check_mark: Show markers that have detailed info in a popup window
+    - [x] :heavy_check_mark: Marker zoom-in option
+    - [x] :heavy_check_mark: Hide/Show markers option
+    - [ ] Add a time slider
+- [x] :heavy_check_mark: The Wikidata API & SPARQL by displaying Wikidata information on the map.
+- [ ] Add Wikidata login control.
 - [ ] An option to retrieve geo-coordinates for multiple German addresses at once.
 - [ ] A historical (geo-referenced) map as overlay
 
 # Preview
-<!--
-# TODO: Add webpage screenshot(s)
--->
+![Map preview](pics/Screenshot_2021-05-31%20Leaflet%20map.png)
 
 # Built with
 * [Leaflet](https://leafletjs.com/) ([repository](https://github.com/Leaflet/Leaflet)), a JavaScript library for mobile-friendly interactive maps.
