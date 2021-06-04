@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Leaflet GeoSearch</title>
+    <link rel='shortcut icon' href='/pics/favicon.ico' />
+
+    <!-- leaflet lib -->
+    <link rel='stylesheet' href='/node_modules/leaflet/dist/leaflet.css' />
+    <script src='/node_modules/leaflet/dist/leaflet.js'></script>
+
+    <!-- leaflet-geosearch lib -->
+    <link rel='stylesheet' href='/node_modules/leaflet-geosearch/dist/geosearch.css' />
+    <script src='/node_modules/leaflet-geosearch/dist/geosearch.umd.js'></script>
+
+    <!-- website -->
+    <link rel='stylesheet' href='/css/leafletGeoSearch.css' />
+    <script src='/js/leafletGeoSearch.js'></script>
+</head>
+
+<body>
+    <p>
+        Menu links to:
+        <a href='/html/leafletMap.html'>Leaflet Wikidata</a> -
+        <a href='/html/leafletGeoSearch.html'>Leaflet GeoSearch</a> -
+        <a href='/html/geoSearchByList.html'>GeoSearch by list</a>
+    </p>
+    <h1>Leaflet GeoSearch by OpenStreetMap</h1>
+    <div id='mapAndTableDiv'>
+        <div id='leafletMapDiv'></div>
+        <div id='geoSearchResultsDiv'>
+            <table id='geoSearchResultsTable'>
+                <tr>
+                    <th id='geoSearchResultsThLabel'>address label (click to move to)</th>
+                    <th id='geoSearchResultsThCoordinates'>lat, lng</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
