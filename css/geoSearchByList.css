@@ -1,0 +1,72 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    width: 100%;
+}
+
+th,
+td {
+    border: 1px solid black;
+}
+
+th {
+    background-color: rgb(153, 191, 230);
+    padding: 10px 10px 10px;
+    text-align: left;
+}
+
+tr:nth-child(odd) {
+    background-color: rgb(235, 242, 250);
+}
+
+tr:nth-child(even) {
+    background-color: rgb(255, 255, 255);
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+.geoSearchButton {
+    background-color: rgb(153, 191, 230);
+}
+
+#textareaAndTableDiv {
+    height: 85%;
+    padding-top: 25px;
+    width: 100%;
+}
+
+#providersAndAddressesDiv {
+    float: left;
+    height: 85%;
+    width: 25%;
+}
+
+#addressesTextarea {
+    height: 100%;
+    width: 100%;
+}
+
+#geoSearchResultsDiv {
+    margin-left: 26%;
+}
+
+#geoSearchResultsThLabelFromGeoSearch,
+#geoSearchResultsThLabelFromList {
+    width: 35%;
+}
+
+#geoSearchResultsThCoordinates {
+    width: 30%;
+}
+
+#leafletMapDiv {
+    height: 30%;
+    width: 100%;
+}

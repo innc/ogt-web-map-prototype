@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GeoSearch by list</title>
+    <link rel='shortcut icon' href='/pics/favicon.ico' />
+
+    <!-- leaflet lib -->
+    <link rel='stylesheet' href='/node_modules/leaflet/dist/leaflet.css' />
+    <script src='/node_modules/leaflet/dist/leaflet.js'></script>
+
+    <!-- leaflet-geosearch lib -->
+    <link rel='stylesheet' href='/node_modules/leaflet-geosearch/dist/geosearch.css' />
+    <script src='/node_modules/leaflet-geosearch/dist/geosearch.umd.js'></script>
+
+    <!-- website -->
+    <link rel='stylesheet' href='/css/geoSearchByList.css' />
+    <script src='/js/geoSearchByList.js'></script>
+</head>
+
+<body>
+    <p>
+        Menu links to:
+        <a href='/html/leafletMap.html'>Leaflet Wikidata</a> -
+        <a href='/html/leafletGeoSearch.html'>Leaflet GeoSearch</a> -
+        <a href='/html/geoSearchByList.html'>GeoSearch by list</a>
+    </p>
+    <h1>GeoSearch by list</h1>
+    <div id='leafletMapDiv'></div>
+    <div id='textareaAndTableDiv'>
+        <div id='providersAndAddressesDiv'>
+            <label for='providersList'>Choose a geo-search provider:</label>
+            <select name='provider' id='providersList'>
+                <option value='algolia'>Algolia</option>
+                <option value='bing'>Bing (not implemented)</option>
+                <option value='esri'>Esri</option>
+                <option value='google'>Google (not implemented)</option>
+                <option value='here'>Here (not implemented)</option>
+                <option value='locationIQ'>LocationIQ (not implemented)</option>
+                <option value='openCage'>OpenCage (not implemented)</option>
+                <option value='openStreetMap' selected>OpenStreetMap</option>
+            </select>
+            <textarea id='addressesTextarea'></textarea>
+        </div>
+        <div id='geoSearchResultsDiv'>
+            <button type='button' class='geoSearchButton' data-best-address-constraint='true'>
+                Start geo-search (only best result)
+            </button>
+            <button type='button' class='geoSearchButton' data-best-address-constraint='false'>
+                Start geo-search (all results)
+            </button>
+            <table id='geoSearchResultsTable'>
+                <tr>
+                    <th id='geoSearchResultsThLabelFromList'>address label from list</th>
+                    <th id='geoSearchResultsThLabelFromGeoSearch'>address label from geosearch (click to move to)</th>
+                    <th id='geoSearchResultsThCoordinates'>lat, lng</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
