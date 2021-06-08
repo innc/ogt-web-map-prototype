@@ -6,8 +6,7 @@
 - [Preview](#preview)
 - [Built with](#built-with)
 - [Getting Started](#getting-started)
-  - [Option 1 - Simple install without any prerequisites](#option-1---simple-install-without-any-prerequisites)
-  - [Option 2 - Install by using git and package manager](#option-2---install-by-using-git-and-package-manager)
+  - [Install by using git and package manager](#install-by-using-git-and-package-manager)
     - [Prerequisites](#prerequisites)
     - [Install](#install)
 - [License](#license)
@@ -34,28 +33,30 @@ The prototype will be used to test/evaluate the following:
     - [ ] Add a time slider
 - [x] :heavy_check_mark: The Wikidata API & SPARQL by displaying Wikidata information on the map.
 - [ ] Add Wikidata login control.
-- [ ] An option to retrieve geo-coordinates for multiple German addresses at once.
+- [x] :heavy_check_mark: An option to retrieve geo-coordinates for multiple addresses at once.
 - [ ] A historical (geo-referenced) map as overlay
 
 # Preview
+Leaflet map displaying Wikidata infos:
 ![Map preview](pics/Screenshot_2021-05-31%20Leaflet%20map.png)
+Geo-search on Leaflet map:
+![Map preview](pics/Screenshot%202021-06-07%20Leaflet%20GeoSearch.png)
+Geo-search by address list:
+![Map preview](pics/Screenshot%202021-06-07%20GeoSearch%20by%20list.png)
 
 # Built with
 * [Leaflet](https://leafletjs.com/) ([repository](https://github.com/Leaflet/Leaflet)), a JavaScript library for mobile-friendly interactive maps.
+* [leaflet-geosearch](https://smeijer.github.io/leaflet-geosearch/) ([repository](https://github.com/smeijer/leaflet-geosearch)), a geocoding/address-lookup library supporting various api providers.
 * [npm](https://www.npmjs.com/) ([repository](https://github.com/npm/cli)), a package manager for JavaScript.
 
 # Getting Started
 Instructions for setting up project locally.
 To get a local copy up and running follow these steps.
 
-## Option 1 - Simple install without any prerequisites
-* Download [zip package](https://git.tib.eu/nfdi4culture/ogt/ogt-prototype-simple-webpage/-/archive/master/ogt-prototype-simple-webpage-master.zip) and unzip into a directory.
-* Open file at directory-path [`/html/leafletMap.html`](/html/leafletMap.html) within a browser.
-
-## Option 2 - Install by using git and package manager
+## Install by using git and package manager
 ### Prerequisites
 Software you need to use the prototype and how to install them for Ubuntu.
-* git
+* git (not required, if you download project zip package)
   ```sh
   sudo apt update && sudo apt upgrade
   sudo apt install git
@@ -71,7 +72,9 @@ Software you need to use the prototype and how to install them for Ubuntu.
    ```sh
    git clone https://git.tib.eu/nfdi4culture/ogt/ogt-prototype-simple-webpage.git
    ```
-2. Install NPM packages
+   or download zip package [from GitLab](https://git.tib.eu/nfdi4culture/ogt/ogt-prototype-simple-webpage/-/archive/master/ogt-prototype-simple-webpage-master.zip) (or [GitHub](https://github.com/NFDI4Culture/OGT-prototype-simple-webpage/archive/refs/heads/master.zip)) and unzip into a directory.
+
+2. Install libs with NPM
    ```sh
    cd ogt-prototype-simple-webpage/
    npm install
