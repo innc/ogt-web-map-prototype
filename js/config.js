@@ -1,17 +1,17 @@
 const config = {
     map: null,
     sparqlQuerys: {
-        // places of Gestapo terror in present-day Lower Saxony
+        // places of Gestapo terror
         getOgtData: `
             SELECT
                 ?item
                 ?itemLabel
                 ?itemDescription
                 (GROUP_CONCAT(DISTINCT ?itemInstanceLabel ; separator=", ") as ?itemInstanceLabelConcat)
-                (SAMPLE(?lat) AS ?lat)
-                (SAMPLE(?lng) AS ?lng)
+                ?lat
+                ?lng
             WHERE {
-                ?item wdt:P195 wd:Q106571749;
+                ?item wdt:P31 wd:Q106996250;
                     wdt:P31 ?itemInstance;
                     p:P625 ?itemGeo.
                 ?itemGeo psv:P625 ?geoNode.
@@ -24,7 +24,7 @@ const config = {
                     ?itemInstance rdfs:label ?itemInstanceLabel.
                 }
             }
-            GROUP BY ?item ?itemLabel ?itemDescription
+            GROUP BY ?item ?itemLabel ?itemDescription ?lat ?lng
             ORDER BY ?item`,
     },
     tileLayerProviders: {
