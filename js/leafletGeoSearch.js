@@ -1,18 +1,14 @@
-let globals = {
-    map: null,
-};
-
 /**
  * Init Leaflet map and add leaflet-geosearch control
  */
 window.onload = function () {
-    globals.map = L.map('leafletMapDiv', {
+    config.map = L.map('leafletMapDiv', {
         // format: [lat, lng], here e.g. center of Hannover, Lange Laube 28
         center: [52.377132041829874, 9.727402178803096],
         zoom: 8,
     });
 
-    L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(globals.map);
+    L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(config.map);
 
     const geoSearchControl = new GeoSearch.GeoSearchControl({
         // determines how many last results are kept in memory
@@ -28,7 +24,7 @@ window.onload = function () {
         style: 'bar',
     });
 
-    globals.map.addControl(geoSearchControl);
+    config.map.addControl(geoSearchControl);
 };
 
 /**
@@ -58,5 +54,5 @@ function addAddressToTable(address) {
  * @param {float} lng
  */
 function showAddress(lat, lng) {
-    globals.map.flyTo([lat, lng]);
+    config.map.flyTo([lat, lng]);
 }
