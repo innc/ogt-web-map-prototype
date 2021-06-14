@@ -1,5 +1,4 @@
 const globals = {
-    map: null,
     mapMarkers: [],
 };
 
@@ -11,7 +10,7 @@ window.onload = function () {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     });
 
-    globals.map = L.map('leafletMapDiv', {
+    config.map = L.map('leafletMapDiv', {
         // center format is [lat, lng], here e.g. center of Hannover, Lange Laube 28
         center: [52.377132041829874, 9.727402178803096],
         layers: [tileLayer],
@@ -156,7 +155,7 @@ function addAddressesToTable(searchedAddress, foundAddresses = []) {
  * @param {float} lng
  */
 function showAddress(lat, lng) {
-    globals.map.flyTo([lat, lng]);
+    config.map.flyTo([lat, lng]);
 }
 
 /**
@@ -175,5 +174,5 @@ function addMapMarker(addressLabel, lat, lng) {
 
     L.marker([lat, lng], {
         title: addressLabel,
-    }).addTo(globals.map);
+    }).addTo(config.map);
 }
