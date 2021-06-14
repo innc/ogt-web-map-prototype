@@ -39,8 +39,10 @@ The prototype will be used to test/evaluate the following:
 # Preview
 Leaflet map displaying Wikidata infos:
 ![Map preview](pics/Screenshot_2021-05-31%20Leaflet%20map.png)
+
 Geo-search on Leaflet map:
 ![Map preview](pics/Screenshot%202021-06-07%20Leaflet%20GeoSearch.png)
+
 Geo-search by address list:
 ![Map preview](pics/Screenshot%202021-06-07%20GeoSearch%20by%20list.png)
 
