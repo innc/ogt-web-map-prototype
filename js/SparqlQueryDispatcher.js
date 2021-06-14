@@ -4,8 +4,8 @@ class SparqlQueryDispatcher {
         this.sparqlQuery = sparqlQuery;
     }
 
-    query(sparqlQuery) {
-        const fullUrl = this.endpoint + '?query=' + encodeURIComponent(sparqlQuery);
+    query() {
+        const fullUrl = this.endpoint + '?query=' + encodeURIComponent(this.sparqlQuery);
         const headers = {
             'Accept': 'application/sparql-results+json'
         };
