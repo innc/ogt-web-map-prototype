@@ -41,7 +41,7 @@ function setupLeafletMap() {
  * @param {L.Control.Layers} layers
  */
 function requestGestapoMarkers(layers) {
-    const queryDispatcher = new SparqlQueryDispatcher(config.sparqlQuerys.getOgtData);
+    const queryDispatcher = new SparqlQueryDispatcher(config.sparqlQuerys.getGestapoTerrorPlaces);
 
     queryDispatcher.query()
         .then((response) => {

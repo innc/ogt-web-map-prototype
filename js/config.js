@@ -1,8 +1,7 @@
 const config = {
     map: null,
     sparqlQuerys: {
-        // places of Gestapo terror
-        getOgtData: `
+        getGestapoTerrorPlaces: `
             SELECT
                 ?item
                 ?itemLabel
