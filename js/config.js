@@ -1,8 +1,18 @@
 const config = {
+    getAllOgtData: {
+        onlySelectedProperties: false,
+        selectedProperties: [
+            'itemAltLabels',    // fixed name
+            'itemDescription',  // fixed name
+            'P31',              // https://www.wikidata.org/wiki/Property:P31 instance of
+            'P625',             // https://www.wikidata.org/wiki/Property:P625 coordinate location
+            'P131',             // https://www.wikidata.org/wiki/Property:P131 located in the administrative territorial entity
+            'P17',              // https://www.wikidata.org/wiki/Property:P17 country
+        ],
+    },
     map: null,
     sparqlQuerys: {
-        // places of Gestapo terror
-        getOgtData: `
+        getGestapoTerrorPlaces: `
             SELECT
                 ?item
                 ?itemLabel
@@ -26,6 +36,42 @@ const config = {
             }
             GROUP BY ?item ?itemLabel ?itemDescription ?lat ?lng
             ORDER BY ?item`,
+        getAllOgtData: `
+            SELECT
+                ?item
+                ?itemLabel
+                ?itemDescription
+                ?itemAltLabel
+                ?prop
+                ?propLabel
+                ?propValueLabel
+                ?qualifier
+                ?qualifierLabel
+                ?qualifierValueLabel
+                # preparation for getting date precision
+                # ?propValueTimeprecision
+            WHERE {
+                # some default items
+                # VALUES ?item {wd:Q106600727 wd:Q1800285 wd:Q106109048}
+                ?item wdt:P31 wd:Q106996250;
+                    ?p ?statement.
+                ?statement ?ps ?propValue.
+                ?prop wikibase:claim ?p;
+                    wikibase:statementProperty ?ps.
+
+                # (wip) preparation for getting date precision
+                # OPTIONAL {
+                #   ?statement ?psv ?propStatementValue.
+                #   ?propStatementValue wikibase:timePrecision ?propValueTimeprecision
+                # }
+
+                OPTIONAL {
+                    ?statement ?pq ?qualifierValue.
+                    ?qualifier wikibase:qualifier ?pq.
+                }
+                SERVICE wikibase:label { bd:serviceParam wikibase:language "de". }
+            }
+            ORDER BY ?item ?prop ?statement ?propValue`,
     },
     tileLayerProviders: {
         "OSM default": {
