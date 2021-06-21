@@ -52,14 +52,14 @@ const config = {
                 # ?propValueTimeprecision
             WHERE {
                 # some default items
-                # VALUES ?item {wd:Q106600727 wd:Q1800285 wd:Q15397819 wd:Q106109048}
+                # VALUES ?item {wd:Q106600727 wd:Q1800285 wd:Q106109048}
                 ?item wdt:P31 wd:Q106996250;
                     ?p ?statement.
                 ?statement ?ps ?propValue.
                 ?prop wikibase:claim ?p;
                     wikibase:statementProperty ?ps.
 
-                # preparation for getting date precision
+                # (wip) preparation for getting date precision
                 # OPTIONAL {
                 #   ?statement ?psv ?propStatementValue.
                 #   ?propStatementValue wikibase:timePrecision ?propValueTimeprecision
